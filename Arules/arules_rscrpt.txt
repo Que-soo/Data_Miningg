@@ -1,0 +1,38 @@
+# install packages once
+install.packages("arules")
+install.packages("arulesViz")
+
+# load libraries
+library(arules)
+library(arulesViz)
+
+# load dataset
+data("Groceries")
+
+# verify
+summary(Groceries)
+
+# inspect sample
+inspect(Groceries[1:5])
+
+#itemFrequency
+itemFrequencyPlot(Groceries, topN = 20, type = "absolute")
+
+# apply Apriori
+rules <- apriori(Groceries, parameter = list(supp = 0.05, conf = 0.5))
+
+rules
+
+# inspect rules
+inspect(head(rules))
+
+rules_sorted <- sort(rules, by = "lift", decreasing = TRUE)
+inspect(head(rules_sorted))
+
+
+# visualize
+plot(rules, method = "scatterplot")
+plot(rules, method = "graph", engine = "htmlwidget")
+plot(rules, method = "grouped")
+
+
